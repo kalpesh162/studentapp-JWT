@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Students</title>
+<style>
+body {
+	font-family: Arial;
+}
+
+table {
+	border-collapse: collapse;
+	width: 70%;
+}
+
+th, td {
+	border: 1px solid #aaa;
+	padding: 8px;
+}
+
+th {
+	background: #f0f0f0;
+}
+
+.btn {
+	padding: 4px 8px;
+	border: 1px solid #333;
+	background: #fff;
+	cursor: pointer;
+}
+
+.pagination a {
+	margin: 2px;
+	padding: 4px 8px;
+	border: 1px solid #333;
+	text-decoration: none;
+}
+
+.active {
+	background: #333;
+	color: #fff;
+}
+</style>
+</head>
+<body>
+	<form th:action="@{/logout}" method="get">
+		<button type="submit">Logout</button>
+	</form>
+
+
+	<h2>Student List</h2>
+
+	<a th:href="@{/add}" class="btn">➕ Add Student</a>
+
+	<br>
+	<br>
+
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Age</th>
+			<th>Course</th>
+			<th>Actions</th>
+		</tr>
+
+		<tr th:each="s : ${students}">
+			<td th:text="${s.id}"></td>
+			<td th:text="${s.name}"></td>
+			<td th:text="${s.age}"></td>
+			<td th:text="${s.course}"></td>
+			<td><a th:href="@{/edit/{id}(id=${s.id})}" class="btn">Edit</a>
+				<a th:href="@{/delete/{id}(id=${s.id})}"
+				onclick="return confirm('Delete this record?')" class="btn">Delete</a>
+			</td>
+		</tr>
+	</table>
+
+	<br>
+
+	<!-- Pagination -->
+	<div class="pagination">
+		<span th:each="i : ${#numbers.sequence(0, totalPages - 1)}"> <a
+			th:href="@{/(page=${i})}" th:text="${i + 1}"
+			th:classappend="${i == currentPage} ? 'active' : ''"> </a>
+		</span>
+	</div>
+
+</body>
+</html>
