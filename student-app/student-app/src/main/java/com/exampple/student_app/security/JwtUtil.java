@@ -2,6 +2,7 @@ package com.exampple.student_app.security;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -11,7 +12,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtil {
 
-	private final String SECRET = "mySecretKeyMySecretKeyMySecretKey";
+	@Value("${jwt.secret}")
+	private String SECRET;
 
 	public String generateToken(String username) {
 		return Jwts.builder().setSubject(username).setIssuedAt(new Date())
